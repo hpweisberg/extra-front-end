@@ -10,6 +10,7 @@ import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import ItemsList from './pages/ItemsList/ItemsList'
 import NewItem from './pages/NewItem/NewItem'
+import ItemDetials from './pages/ItemDetails/ItemDetails'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -61,6 +62,14 @@ function App(): JSX.Element {
     navigate('/items')
   }
 
+  const handleDeleteItem = async (id: number): Promise<void> => {
+    const deleteItem = await itemService.delete(id)
+    setItems(items.filter(item => item.id !== deleteItem.id))
+    navigate('/items')
+  }
+
+  
+
 
   return (
     <>
@@ -88,6 +97,14 @@ function App(): JSX.Element {
           element={
             <ProtectedRoute user={user}>
               <ItemsList items={items} user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/items/:id"
+          element={
+            <ProtectedRoute user={user}>
+              <ItemDetials handleDeleteItem={handleDeleteItem} user={user}/>
             </ProtectedRoute>
           }
         />
