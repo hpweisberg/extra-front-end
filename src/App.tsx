@@ -9,6 +9,7 @@ import Landing from './pages/Landing/Landing'
 import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import ItemsList from './pages/ItemsList/ItemsList'
+import NewItem from './pages/NewItem/NewItem'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -54,6 +55,11 @@ function App(): JSX.Element {
     setUser(authService.getUser())
   }
 
+  const handleAddItem = async (itemData: ItemFormData): Promise<void> => {
+    const newItem = await itemService.create(itemData)
+    setItems([newItem, ...items])
+    navigate('/items')
+  }
 
 
   return (
@@ -82,6 +88,14 @@ function App(): JSX.Element {
           element={
             <ProtectedRoute user={user}>
               <ItemsList items={items} user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/items/new"
+          element={
+            <ProtectedRoute user={user}>
+              <NewItem handleAddItem={handleAddItem}/>
             </ProtectedRoute>
           }
         />

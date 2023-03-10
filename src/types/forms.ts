@@ -11,8 +11,8 @@ export interface ItemFormData {
   photo?: string;
   Profile?: Profile;
   id?: number;
-  createdAt: string;
-  updateddAt: string;
+  createdAt?: string;
+  updateddAt?: string;
 }
 
 

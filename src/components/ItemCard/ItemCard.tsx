@@ -15,6 +15,11 @@ const ItemCard = (props: ItemCardProps): JSX.Element => {
     <h1>{item.name}</h1>
     <h4>{item.quantity}</h4>
     <h4>{item.location}</h4>
+    <Link to={`/items/${item.id}`}>
+    <button>
+      Details
+    </button>
+    </Link>
     </>
   )
 }
