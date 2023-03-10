@@ -1,14 +1,18 @@
 /* ---------==== custom forms ====--------- */
 
+import { Profile } from "./models";
+
 export interface ItemFormData {
-  profileId: number,
-  name: string,
-  quantity: number,
-  location?: string,
-  experation?: string,
-  photo?: string,
-  createdAt: string,
-  updateddAt: string,
+  profileId: number;
+  name: string;
+  quantity: number;
+  location?: string;
+  experation?: string;
+  photo?: string;
+  Profile?: Profile;
+  id?: number;
+  createdAt: string;
+  updateddAt: string;
 }
 
 

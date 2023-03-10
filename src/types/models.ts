@@ -1,5 +1,17 @@
 /* ---------===== custom props ====--------- */
 
+export interface Item {
+  profileId: number;
+  name: string;
+  quantity: string;
+  location?: string;
+  experation?: string;
+  Profile?: Profile;
+  photo?: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
 
 /* ---------===== auth models =====--------- */
