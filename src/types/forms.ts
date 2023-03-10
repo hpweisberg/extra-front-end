@@ -1,5 +1,15 @@
 /* ---------==== custom forms ====--------- */
 
+export interface ItemFormData {
+  profileId: number,
+  name: string,
+  quantity: number,
+  location?: string,
+  experation?: string,
+  photo?: string,
+  createdAt: string,
+  updateddAt: string,
+}
 
 
 /* ---------===== auth forms =====--------- */
