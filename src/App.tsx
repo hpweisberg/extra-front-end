@@ -11,6 +11,7 @@ import ChangePassword from './pages/ChangePassword/ChangePassword'
 import ItemsList from './pages/ItemsList/ItemsList'
 import NewItem from './pages/NewItem/NewItem'
 import ItemDetials from './pages/ItemDetails/ItemDetails'
+import EditItem from './pages/EditItem/EditItem'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -62,13 +63,18 @@ function App(): JSX.Element {
     navigate('/items')
   }
 
+  const handleUpdateItem = async (itemData: ItemFormData): Promise<void> => {
+    const updateItem = await itemService.update(itemData)
+    setItems(items.map(item => itemData.id === item.id ? updateItem : item))
+    navigate(`/items/${itemData.id}`)
+  }
+
   const handleDeleteItem = async (id: number): Promise<void> => {
     const deleteItem = await itemService.delete(id)
     setItems(items.filter(item => item.id !== deleteItem.id))
     navigate('/items')
   }
 
-  
 
 
   return (
@@ -113,6 +119,14 @@ function App(): JSX.Element {
           element={
             <ProtectedRoute user={user}>
               <NewItem handleAddItem={handleAddItem}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/items/:id/edit"
+          element={
+            <ProtectedRoute user={user}>
+              <EditItem handleUpdateItem={handleUpdateItem}/>
             </ProtectedRoute>
           }
         />

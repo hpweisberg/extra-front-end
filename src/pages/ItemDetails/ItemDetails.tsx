@@ -44,6 +44,10 @@ const ItemDetials = (props: ItemDetailsProps): JSX.Element => {
           <h1>{item.name}</h1>
           <h1>{item.quantity}</h1>
           <h1>{item.location}</h1>
+          <Link to={`/items/${id}/edit`} state={item}>
+            <button>Edit Item</button>
+          </Link>
+          <button onClick={() => props.handleDeleteItem(item.id)}>Delete Item</button>
 
         </section>
 
