@@ -1,5 +1,5 @@
 // npm modules 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 
 // page components
@@ -8,7 +8,7 @@ import Login from './pages/Login/Login'
 import Landing from './pages/Landing/Landing'
 import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
-import Items from './pages/Items/Items'
+import ItemsList from './pages/ItemsList/ItemsList'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -16,17 +16,33 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 // services
 import * as authService from './services/authService'
+import * as profileService from './services/profileService'
+import * as itemService from './services/itemService'
 
 // stylesheets
 import './App.css'
 
 // types
-import { User } from './types/models'
+import { User, Profile, Item } from './types/models'
+import { ItemFormData } from './types/forms'
 
 function App(): JSX.Element {
   const navigate = useNavigate()
   
   const [user, setUser] = useState<User | null>(authService.getUser())
+  const [items, setItems] = useState<Item[]>([])
+
+  useEffect((): void => {
+    const fetchAllItems = async (): Promise<void> => {
+      try {
+        const itemData: Item[] = await itemService.index()
+        setItems(itemData)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (user) fetchAllItems()
+  }, [user])
 
   const handleLogout = (): void => {
     authService.logout()
@@ -37,6 +53,8 @@ function App(): JSX.Element {
   const handleAuthEvt = (): void => {
     setUser(authService.getUser())
   }
+
+
 
   return (
     <>
@@ -63,7 +81,7 @@ function App(): JSX.Element {
           path="/items"
           element={
             <ProtectedRoute user={user}>
-              <Items user={user}/>
+              <ItemsList items={items} user={user}/>
             </ProtectedRoute>
           }
         />
