@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import { ItemFormData } from "../../types/forms";
+import { update } from "../../services/itemService";
+import { ItemFormData, PhotoFormData } from "../../types/forms";
+import { Profile } from "../../types/models";
+import { handleErrMsg } from "../../types/validators";
 
 interface NewItemProps {
   handleAddItem: (itemData: ItemFormData) => void;
 }
 
 const NewItem = (props: NewItemProps): JSX.Element => {
+  // const {updateMessage, handleAuthEvt} = props
   const [form, setForm] = useState<ItemFormData>({
     name: '',
     quantity: 0,
     location: '',
     experation: '',
-    photo: '',
+    // photo: '',
     //? Fix hardcoded number
     profileId: 1,
     
@@ -29,13 +33,31 @@ const NewItem = (props: NewItemProps): JSX.Element => {
     // updateddAt?: '',
   })
 
+  const [photoData, setPhotoData] = useState<PhotoFormData>({
+    photo: null
+  })
+
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
   const handleChange = (evt: React.FormEvent<HTMLInputElement>) => {
     setForm({...form, [evt.currentTarget.name]: evt.currentTarget.value})
   }
 
-  const handleSubmit = (evt: React.FormEvent) => {
+  const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault()
-    props.handleAddItem(form)
+    if(isSubmitted) return
+    try {
+      props.handleAddItem(form)
+      
+    } catch (error) {
+      console.log(error)
+      // handleErrMsg(err, updateMessage)
+    }
+  }
+
+
+  const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (evt.target.files) setPhotoData({ photo: evt.target.files.item(0) })
   }
 
   return ( 
@@ -86,13 +108,13 @@ const NewItem = (props: NewItemProps): JSX.Element => {
           />
         <label htmlFor="photo">Photo:</label>
         <input 
-          type="text" 
+          type="file" 
           id="photo"
           name="photo"
           value={form.photo} 
           // placeholder="MM-DD-YY" 
           autoComplete="off"
-          onChange={handleChange} 
+          onChange={handleChangePhoto} 
           />
           <button type="submit">Add Item</button>
       </form>

@@ -31,7 +31,7 @@ const ItemDetials = (props: ItemDetailsProps): JSX.Element => {
     }
     fetchItem()
   }, [id])
-
+console.log(item)
   return (
     <>
       <Link to='/items'>
@@ -44,6 +44,8 @@ const ItemDetials = (props: ItemDetailsProps): JSX.Element => {
           <h1>{item.name}</h1>
           <h1>{item.quantity}</h1>
           <h1>{item.location}</h1>
+          <h1>{item.experation}</h1>
+          <h1>{item.photo}</h1>
           <Link to={`/items/${id}/edit`} state={item}>
             <button>Edit Item</button>
           </Link>
